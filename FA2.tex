@@ -1,0 +1,373 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+
+\title{FA2}
+\author{Awit, Julia Theressa}
+\date{August 29, 2026}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 3.1}
+
+Given the data matrix
+\[
+X=\begin{pmatrix} 9 & 1 \\ 5 & 3 \\ 1 & 2\end{pmatrix}.
+\]
+
+First, find the sample mean of each column.
+\[
+\bar x_1=\frac{9+5+1}{3}=5, \qquad \bar x_2=\frac{1+3+2}{3}=2
+\]
+\[
+\bar{\mathbf x}=\begin{pmatrix}5\\2\end{pmatrix}
+\]
+
+\textbf{(a)} The three points are $(9,1)$, $(5,3)$, $(1,2)$. The sample mean $(5,2)$ is
+plotted as the center of the three points.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+\draw[->] (-1,0) -- (11,0) node[right]{$x_1$};
+\draw[->] (0,-1) -- (0,5) node[above]{$x_2$};
+\foreach \x in {1,3,5,7,9} \draw (\x,-0.1)--(\x,0.1) node[below=3pt]{\scriptsize \x};
+\foreach \y in {1,2,3,4} \draw (-0.1,\y)--(0.1,\y) node[left=3pt]{\scriptsize \y};
+\filldraw (9,1) circle (2.5pt) node[above right]{$(9,1)$};
+\filldraw (5,3) circle (2.5pt) node[above right]{$(5,3)$};
+\filldraw (1,2) circle (2.5pt) node[above right]{$(1,2)$};
+\filldraw (5,2) circle (2.5pt) node[above right]{$\bar{\mathbf x}=(5,2)$};
+\end{tikzpicture}
+\end{center}
+
+\textbf{(b)} Now treat each column as a vector in $n=3$ dimensions.
+\[
+\mathbf y_1=\begin{pmatrix}9\\5\\1\end{pmatrix},\qquad
+\mathbf y_2=\begin{pmatrix}1\\3\\2\end{pmatrix}
+\]
+
+Subtract the mean (times $\mathbf 1$) from each vector to get the deviation vectors.
+\[
+\mathbf y_1-\bar x_1\mathbf 1=\begin{pmatrix}9\\5\\1\end{pmatrix}-\begin{pmatrix}5\\5\\5\end{pmatrix}
+=\begin{pmatrix}4\\0\\-4\end{pmatrix}
+\]
+\[
+\mathbf y_2-\bar x_2\mathbf 1=\begin{pmatrix}1\\3\\2\end{pmatrix}-\begin{pmatrix}2\\2\\2\end{pmatrix}
+=\begin{pmatrix}-1\\1\\0\end{pmatrix}
+\]
+
+These are the deviation vectors $\mathbf d_1=(4,0,-4)'$ and $\mathbf d_2=(-1,1,0)'$. In the
+sketch, $\mathbf y_1$ and $\mathbf y_2$ are vectors in $\mathbb R^3$, and $\mathbf d_1$,
+$\mathbf d_2$ are what is left after removing their projection onto the line through
+$\mathbf 1=(1,1,1)'$.
+
+\textbf{(c)} Now plot $\mathbf d_1$ and $\mathbf d_2$ starting from the origin.
+
+\begin{center}
+\begin{tikzpicture}[scale=1]
+\draw[->] (-1.2,0) -- (4.5,0);
+\draw[->] (0,-0.3) -- (0,2.5);
+\draw[thick,->] (0,0) -- (3.5,0) node[right]{$\mathbf d_1$};
+\draw[thick,->] (0,0) -- (-0.9,1.2) node[above]{$\mathbf d_2$};
+\draw (0.5,0) arc (0:127:0.5);
+\node at (0.05,0.55) {\scriptsize $\theta$};
+\end{tikzpicture}
+\end{center}
+
+Length of $\mathbf d_1$:
+\[
+\lVert \mathbf d_1\rVert=\sqrt{4^2+0^2+(-4)^2}=\sqrt{32}=\boxed{4\sqrt2}
+\]
+
+Length of $\mathbf d_2$:
+\[
+\lVert \mathbf d_2\rVert=\sqrt{(-1)^2+1^2+0^2}=\boxed{\sqrt2}
+\]
+
+Dot product:
+\[
+\mathbf d_1\cdot \mathbf d_2=(4)(-1)+(0)(1)+(-4)(0)=-4
+\]
+
+Cosine of the angle between them:
+\[
+\cos\theta=\frac{\mathbf d_1\cdot \mathbf d_2}{\lVert \mathbf d_1\rVert\lVert \mathbf d_2\rVert}
+=\frac{-4}{(4\sqrt2)(\sqrt2)}=\frac{-4}{8}=\boxed{-\frac12}
+\]
+
+Relating this to $S_n$: using $S_n=\frac1n D'D$,
+\[
+s_{11}=\frac{\lVert\mathbf d_1\rVert^2}{3}=\frac{32}{3},\qquad
+s_{22}=\frac{\lVert\mathbf d_2\rVert^2}{3}=\frac23,\qquad
+s_{12}=\frac{\mathbf d_1\cdot \mathbf d_2}{3}=-\frac43
+\]
+\[
+S_n=\boxed{\begin{pmatrix} 32/3 & -4/3\\ -4/3 & 2/3\end{pmatrix}}
+\]
+
+The correlation is
+\[
+r_{12}=\frac{s_{12}}{\sqrt{s_{11}s_{22}}}=\frac{-4/3}{\sqrt{(32/3)(2/3)}}=\frac{-4/3}{8/3}=\boxed{-\frac12}
+\]
+which is exactly $\cos\theta$ from above. So $R=\begin{pmatrix}1 & -1/2\\ -1/2 & 1\end{pmatrix}$.
+This shows that the length of a deviation vector is tied to the variance of that variable,
+and the angle between two deviation vectors is tied to their correlation.
+
+\newpage
+\section*{Problem 3.6}
+
+\[
+X=\begin{pmatrix} -1 & 3 & -2\\ 2 & 4 & 2\\ 5 & 2 & 3\end{pmatrix}
+\]
+
+Column means:
+\[
+\bar x_1=\frac{-1+2+5}{3}=2,\qquad \bar x_2=\frac{3+4+2}{3}=3,\qquad \bar x_3=\frac{-2+2+3}{3}=1
+\]
+
+\textbf{(a)} Subtract the mean from each column to get $X-\mathbf 1\bar{\mathbf x}'$:
+\[
+X-\mathbf 1\bar{\mathbf x}'=\begin{pmatrix} -3 & 0 & -3\\ 0 & 1 & 1\\ 3 & -1 & 2\end{pmatrix}=D
+\]
+
+Is $D$ full rank? Add up the rows:
+\[
+(-3+0+3,\ 0+1-1,\ -3+1+2)=(0,0,0)
+\]
+The rows add to the zero vector, so the rows are linearly dependent, and $\operatorname{rank}(D)\le 2$.
+Rows 1 and 2, $(-3,0,-3)$ and $(0,1,1)$, are not multiples of each other, so
+$\operatorname{rank}(D)=2$. Since $D$ is $3\times3$, it is \textbf{not} full rank (full
+rank would be $3$). This always happens for a mean-centered matrix because the columns of
+$D$ each sum to zero.
+
+\textbf{(b)} $S=\frac1{n-1}D'D=\frac12 D'D$.
+\[
+D'D=\begin{pmatrix}
+18 & -3 & 15\\
+-3 & 2 & -1\\
+15 & -1 & 14
+\end{pmatrix}
+\]
+\[
+S=\frac12\begin{pmatrix}
+18 & -3 & 15\\
+-3 & 2 & -1\\
+15 & -1 & 14
+\end{pmatrix}
+=\boxed{\begin{pmatrix}
+9 & -3/2 & 15/2\\
+-3/2 & 1 & -1/2\\
+15/2 & -1/2 & 7
+\end{pmatrix}}
+\]
+
+Since $D$ is not full rank, $D'D$ is singular, so
+\[
+|S|=\boxed{0}.
+\]
+Geometrically, $|S|$ measures the volume of the box formed by the deviation vectors. A
+value of $0$ means the deviation vectors do not really span all $3$ dimensions --- they
+are squashed into a flat (2-dimensional) region, so there is no real 3-D spread in the data.
+
+\textbf{(c)} Total sample variance $=\operatorname{tr}(S)=9+1+7=\boxed{17}$.
+
+\newpage
+\section*{Problem 3.9}
+
+\[
+X=\begin{pmatrix}
+12 & 17 & 29\\
+18 & 20 & 38\\
+14 & 16 & 30\\
+20 & 18 & 38\\
+16 & 19 & 35
+\end{pmatrix}
+\]
+where $x_3=x_1+x_2$ (total score).
+
+Column means:
+\[
+\bar x_1=16,\qquad \bar x_2=18,\qquad \bar x_3=34
+\]
+(and $34=16+18$, as expected.)
+
+\textbf{(a)} Mean-corrected data matrix:
+\[
+D=X-\mathbf 1\bar{\mathbf x}'=
+\begin{pmatrix}
+-4 & -1 & -5\\
+2 & 2 & 4\\
+-2 & -2 & -4\\
+4 & 0 & 4\\
+0 & 1 & 1
+\end{pmatrix}
+\]
+
+In every row, column 3 is column 1 plus column 2 (e.g. row 1: $-4+(-1)=-5$). So
+\[
+\text{col}_1+\text{col}_2-\text{col}_3=\mathbf 0
+\]
+which means
+\[
+\boxed{\mathbf a'=[a_1,a_2,a_3]=[1,\ 1,\ -1]}
+\]
+gives the linear dependence.
+
+\textbf{(b)} $S=\frac1{n-1}D'D=\frac14 D'D$.
+\[
+D'D=\begin{pmatrix}
+40 & 12 & 52\\
+12 & 10 & 22\\
+52 & 22 & 74
+\end{pmatrix}
+\]
+\[
+S=\boxed{\begin{pmatrix}
+10 & 3 & 13\\
+3 & 5/2 & 11/2\\
+13 & 11/2 & 37/2
+\end{pmatrix}}
+\]
+
+Since the columns of $D$ are linearly dependent, $D'D$ (and $S$) is singular, so
+$|S|=\boxed{0}$.
+
+Check $S\mathbf a=\mathbf 0$ with $\mathbf a=(1,1,-1)'$:
+\[
+S\mathbf a=
+\begin{pmatrix}
+10+3-13\\
+3+2.5-5.5\\
+13+5.5-18.5
+\end{pmatrix}
+=\begin{pmatrix}0\\0\\0\end{pmatrix}
+\]
+So $\mathbf a$ is an eigenvector of $S$ with eigenvalue $0$.
+
+\textbf{(c)} Checking the original data: $12+17=29$, $18+20=38$, $14+16=30$, $20+18=38$,
+$16+19=35$. In each row $x_3=x_1+x_2$, confirming
+\[
+1\cdot x_1+1\cdot x_2+(-1)\cdot x_3=0,
+\]
+i.e. $a_1=1,\ a_2=1,\ a_3=-1$.
+
+\newpage
+\section*{Problem 3.18}
+
+\[
+\bar{\mathbf x}=\begin{pmatrix}0.766\\0.508\\0.438\\0.161\end{pmatrix},\qquad
+S=\begin{pmatrix}
+0.856 & 0.635 & 0.173 & 0.096\\
+0.635 & 0.568 & 0.127 & 0.067\\
+0.173 & 0.127 & 0.171 & 0.039\\
+0.096 & 0.067 & 0.039 & 0.043
+\end{pmatrix}
+\]
+($x_1$ petroleum, $x_2$ natural gas, $x_3$ hydroelectric, $x_4$ nuclear.)
+
+\textbf{(a)} Total consumption is $T=x_1+x_2+x_3+x_4$, so $\mathbf a=(1,1,1,1)'$.
+
+Mean:
+\[
+E[T]=0.766+0.508+0.438+0.161=\boxed{1.873}
+\]
+
+Variance ($=$ sum of all entries of $S$):
+\[
+\operatorname{Var}(T)=\mathbf a'S\mathbf a
+\]
+\[
+=(0.856+0.635+0.173+0.096)+(0.635+0.568+0.127+0.067)+(0.173+0.127+0.171+0.039)+(0.096+0.067+0.039+0.043)
+\]
+\[
+=1.760+1.397+0.510+0.245=\boxed{3.912}
+\]
+
+\textbf{(b)} Excess of petroleum over gas: $x_1-x_2$, so $\mathbf b=(1,-1,0,0)'$.
+
+Mean:
+\[
+E[x_1-x_2]=0.766-0.508=\boxed{0.258}
+\]
+
+Variance:
+\[
+\operatorname{Var}(x_1-x_2)=s_{11}+s_{22}-2s_{12}=0.856+0.568-2(0.635)=\boxed{0.154}
+\]
+
+Covariance with the total $T$: $\mathbf b'S\mathbf a$. First find $\mathbf b'S$ (row 1 of
+$S$ minus row 2 of $S$):
+\[
+(0.856-0.635,\ 0.635-0.568,\ 0.173-0.127,\ 0.096-0.067)=(0.221,\ 0.067,\ 0.046,\ 0.029)
+\]
+Then dot this with $\mathbf a=(1,1,1,1)'$:
+\[
+\operatorname{Cov}(x_1-x_2,T)=0.221+0.067+0.046+0.029=\boxed{0.363}
+\]
+
+\newpage
+\section*{Problem 3.20}
+
+\begin{center}
+\begin{tabular}{cc|cc|cc}
+$x_1$ & $x_2$ & $x_1$ & $x_2$ & $x_1$ & $x_2$\\ \hline
+12.5 & 13.7 & 9.0 & 24.4 & 3.5 & 26.1\\
+14.5 & 16.5 & 6.5 & 18.2 & 8.0 & 14.5\\
+8.0 & 17.4 & 10.5 & 22.0 & 17.5 & 42.3\\
+9.0 & 11.0 & 10.0 & 32.5 & 10.5 & 17.5\\
+19.5 & 23.6 & 4.5 & 18.7 & 12.0 & 21.8\\
+8.0 & 13.2 & 7.0 & 15.8 & 6.0 & 10.4\\
+9.0 & 32.1 & 8.5 & 15.6 & 13.0 & 25.6\\
+7.0 & 12.3 & 6.5 & 12.0 & & \\
+7.0 & 11.8 & 8.0 & 12.8 & &
+\end{tabular}
+\end{center}
+($x_1=$ storm duration, $x_2=$ hours to clear snow, $n=25$.)
+
+\textbf{(a)} Using the summary statistics:
+\[
+\bar x_1=\frac{235.5}{25}=9.42,\qquad \bar x_2=\frac{481.8}{25}=19.272
+\]
+\[
+\sum(x_{j1}-\bar x_1)^2=339.34\ \Rightarrow\ s_{11}=\frac{339.34}{24}=14.1392
+\]
+\[
+\sum(x_{j2}-\bar x_2)^2=1493.7304\ \Rightarrow\ s_{22}=\frac{1493.7304}{24}=62.2388
+\]
+\[
+\sum(x_{j1}-\bar x_1)(x_{j2}-\bar x_2)=323.344\ \Rightarrow\ s_{12}=\frac{323.344}{24}=13.4727
+\]
+
+Let $d=x_2-x_1$. Then
+\[
+\bar d=\bar x_2-\bar x_1=19.272-9.42=\boxed{9.852}
+\]
+\[
+s_d^2=s_{11}+s_{22}-2s_{12}=14.1392+62.2388-2(13.4727)=\boxed{49.4326}
+\]
+
+\textbf{(b)} Now compute the differences directly, $d_j=x_{j2}-x_{j1}$:
+\[
+1.2,\ 2.0,\ 9.4,\ 2.0,\ 4.1,\ 5.2,\ 23.1,\ 5.3,\ 4.8,\ 15.4,\ 11.7,\ 11.5,\ 22.5,
+\]
+\[
+14.2,\ 8.8,\ 7.1,\ 5.5,\ 4.8,\ 22.6,\ 6.5,\ 24.8,\ 7.0,\ 9.8,\ 4.4,\ 12.6
+\]
+
+Sum $=246.3$, so
+\[
+\bar d=\frac{246.3}{25}=\boxed{9.852}
+\]
+which matches part (a) exactly. The sum of squared deviations is $1186.367$, so
+\[
+s_d^2=\frac{1186.367}{24}=\boxed{49.4320}
+\]
+
+Both methods give the same mean ($9.852$) and basically the same variance ($49.4326$ vs
+$49.4320$, the small difference is just rounding). This makes sense because
+$\operatorname{Var}(x_2-x_1)=s_{11}+s_{22}-2s_{12}$ should hold either way, whether we
+compute it from the summary statistics or straight from the differences.
+
+\end{document}
